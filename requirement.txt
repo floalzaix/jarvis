@@ -1,0 +1,3 @@
+ollama=0.6.2
+pydandic==2.13.4
+pydantic-settings==2.14.1

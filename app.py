@@ -4,7 +4,7 @@
 
 # Perso
 
-from llm import infer
+from services.llm_service import infer
 
 #
 #   Script
