@@ -1,0 +1,19 @@
+[[theme.fontFaces]]
+family="orbitron"
+url="/app/static/fonts/orbitron.light.ttf"
+style="normal"
+weight=700
+
+[theme]
+base = "dark"
+primaryColor = "#14b8ff"
+backgroundColor = "#000000"
+secondaryBackgroundColor = "#000000"
+textColor = "#e5e7eb"
+font = "orbitron"
+
+[server]
+enableStaticServing = true
+
+[client]
+toolbarMode = "minimal"

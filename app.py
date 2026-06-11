@@ -4,26 +4,14 @@
 
 # Perso
 
-from services.llm_service import infer
+from views.mainwindow import MainWindow
 
 #
 #   Script
 #
 
 def main():
-    while True:
-        user_input = input("> ")
-
-        if user_input:
-            stream = infer(
-                user_input,
-            )
-
-            for chunk in stream:
-                print(chunk.message.content, end="", flush=True)
-
-            print("\n")
-            
+    MainWindow().render()
 
 if __name__ == "__main__":
     main()
