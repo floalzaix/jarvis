@@ -7,18 +7,27 @@ import streamlit as st
 # Perso
 
 from interfaces.view import View
+from controllers.chat_controller import ChatController
 
 #
 #   View
 #
 
-class ChatView(View):
+class ChatBarView(View):
     """
         View for the chat interface.
     """
 
-    def __init__(self, blur_effect: bool = True):
+    def __init__(
+        self,
+        current_user_input_placeholder, # type: ignore
+        current_answer_placeholder, # type: ignore
+        blur_effect: bool = True,
+    ):
+        self._current_user_input_placeholder = current_user_input_placeholder # type: ignore
+        self._current_answer_placeholder = current_answer_placeholder # type: ignore
         self.blur_effect = blur_effect
+        self.chat_controller = ChatController()
 
     #
     #   Methods
@@ -246,4 +255,22 @@ class ChatView(View):
     
     def render(self) -> None:
         self.style_chat_inputs()
-        st.chat_input("How can I help you today ?")
+        if user_input := st.chat_input(
+            "How can I help you today ?",
+        ):
+
+            # Displaying the user input has it is not part of
+            # the chat history yet
+            with self._current_user_input_placeholder: # type: ignore
+                with st.chat_message("user"):
+                    st.write(user_input)
+
+            stream = self.chat_controller.ask_llm_response(
+                user_input,
+                "test@test.com" # TODO: handle users in the ui
+            )
+
+            for response in stream:
+                with self._current_answer_placeholder: # type: ignore
+                    with st.chat_message("assistant"):
+                        st.write(response)

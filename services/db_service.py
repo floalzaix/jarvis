@@ -206,7 +206,7 @@ class DBService:
                 save the message to.
 
             Returns:
-                - The newly created chat session ORM of Session.
+                - The newly created chat session id.
 
             Raises:
                 - UserNotFoundError: If the user does not exist
@@ -355,7 +355,7 @@ class DBService:
     def get_messages_from_session(
         self,
         session_id: uuid.UUID,
-    ) -> List[DBMessage]:
+    ) -> List[OllamaMessage]:
         """
             Gets the messages from a session.
 
@@ -375,7 +375,12 @@ class DBService:
                 DBMessage.session_id == session_id
             ).all()
 
-            return messages
+            return [
+                OllamaMessage(
+                    role=message.role,
+                    content=message.content
+                ) for message in messages
+            ]
 
     def get_n_previous_session(
         self,

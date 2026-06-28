@@ -7,7 +7,7 @@ import streamlit as st
 # Perso
 
 from interfaces.view import View
-from views.bottom_bar.bottom_view import BottomView
+from views.chat_view import ChatView
 
 #
 #   MainWindow
@@ -69,4 +69,4 @@ class MainWindow(View):
     def render(self) -> None:
         self.style_background_animation()
         self.set_page_config()
-        BottomView().render()
+        ChatView().render()

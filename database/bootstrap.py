@@ -2,8 +2,10 @@
 #   Imports
 #
 
+import streamlit as st
+
 from contextlib import contextmanager
-from typing import Generator, Optional
+from typing import Generator
 from sqlalchemy import (
     create_engine,
     Engine,
@@ -39,16 +41,11 @@ class DBSessionError(Exception):
 
 settings = get_settings()
 
-_session_maker: Optional[sessionmaker[Session]] = None
-
-def bootstrap_db() -> None:
+@st.cache_resource
+def bootstrap_db() -> sessionmaker[Session]:
     """
         Bootstrap the database by setting up the engine and the session maker.
     """
-    global _session_maker
-
-    if _session_maker is not None:
-        return
 
     URL = settings.DATABASE_URL
 
@@ -75,17 +72,16 @@ def bootstrap_db() -> None:
             f"Error: {e}"
         ) from e
 
+    return _session_maker
+
 @contextmanager
 def get_session() -> Generator[Session, None]:
     """
         Get a session from the session maker.
     """
-    if _session_maker is None:
-        raise RuntimeError(
-            "Trying to access database before it has been initialized."
-        )
+    session_maker = bootstrap_db()
 
-    session = _session_maker()
+    session = session_maker()
     
     try:
         yield session

@@ -2,34 +2,21 @@
 #   Imports
 #
 
-import streamlit as st
-
 # Perso
 
+from helpers.st_session_helper import STSessionHelper
 from views.mainwindow import MainWindow
-from database.bootstrap import bootstrap_db
-
-#
-#   Init
-#
-
-@st.cache_resource
-def init():
-    """
-        All the initializations of the app.
-
-        To be executed only once.
-    """
-    bootstrap_db()
-    return True
 
 #
 #   Script
 #
 
 def main():
-    # Initializing the app
-    init()
+    #
+    #   Init
+    #
+    
+    STSessionHelper()
 
     # Redering the main window
     MainWindow().render()
