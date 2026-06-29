@@ -49,6 +49,10 @@ class BottomView(View):
                     border: 1px solid rgba(20, 184, 255, 0.60);
                     box-shadow: 0 0 18px rgba(20, 184, 255, 0.10);
                 }
+
+                [data-testid="stVerticalBlock"] {
+                    display: block;
+                }
             </style>
             """, unsafe_allow_html=True)
 

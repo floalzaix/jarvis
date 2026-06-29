@@ -22,11 +22,9 @@ class ChatBarView(View):
         self,
         current_user_input_placeholder, # type: ignore
         current_answer_placeholder, # type: ignore
-        blur_effect: bool = True,
     ):
         self._current_user_input_placeholder = current_user_input_placeholder # type: ignore
         self._current_answer_placeholder = current_answer_placeholder # type: ignore
-        self.blur_effect = blur_effect
         self.chat_controller = ChatController()
 
     #
@@ -233,18 +231,7 @@ class ChatBarView(View):
                 background: rgba(20, 184, 255, 0.5) !important;
             }
 
-            """
-            
-            # Adding the blur effect if needed to hide the Jarvis logo
-
-            + ("""
-                [data-testid="stMainBlockContainer"] {
-                    backdrop-filter: blur(10px);
-                }
-            """ if self.blur_effect else "")
-
-            + """
-                </style>
+            </style>
             """,
             unsafe_allow_html=True
         )
@@ -274,3 +261,5 @@ class ChatBarView(View):
                 with self._current_answer_placeholder: # type: ignore
                     with st.chat_message("assistant"):
                         st.write(response)
+
+            st.rerun()

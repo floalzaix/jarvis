@@ -46,4 +46,7 @@ class STSessionHelper:
     def set_st_chat_history(self, chat_history: List[ollama.Message]) -> None:
         st.session_state["chat_history"] = chat_history
 
+    def get_st_has_chat_session(self) -> bool:
+        return st.session_state["has_chat_session"]
+
 st_session_helper = STSessionHelper()

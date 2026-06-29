@@ -8,6 +8,7 @@ import streamlit as st
 
 from interfaces.view import View
 from views.chat_view import ChatView
+from helpers.st_session_helper import st_session_helper
 
 #
 #   MainWindow
@@ -30,11 +31,38 @@ class MainWindow(View):
         st.markdown("""
             <style>
                 .stApp {
+                    position: relative;
                     background-image: url("/app/static/images/jarvis_background.png");
                     background-repeat: no-repeat;
                     background-position: center center;
                     background-size: cover;
+                    overflow: hidden;
                 }
+
+                .stApp::before {
+                    content: "";
+                    position: fixed;
+                    inset: 0;
+                    background-image: url("/app/static/images/jarvis_background_blurry.png");
+                    background-repeat: no-repeat;
+                    background-position: center center;
+                    background-size: cover;
+                    opacity: """ + ("1" if st_session_helper.get_st_chat_history() else "0") + """;
+                    transition: opacity 2s ease;
+                    pointer-events: none;
+                    z-index: 0;
+                }
+
+                .stApp > * {
+                    position: relative;
+                    z-index: 1;
+                }
+
+                """
+
+                +
+
+                """
 
                 .stApp {
                     animation: appFadeIn 5s ease-in-out both;
