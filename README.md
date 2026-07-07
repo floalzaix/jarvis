@@ -3,7 +3,7 @@
 ## Features
 
 > For now it has not yet the stt and tts part ot make it a vocal assistant, tough
-this is part of the plan
+this is part of the plan.
 
 - **Streamlit web UI** with a Jarvis-inspired theme (background, fonts, chat bar)
 - **LLM chat** through Ollama with streaming responses

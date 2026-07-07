@@ -11,7 +11,6 @@ from typing import Iterator, List, Optional
 
 from services.lt_memory_service import LTMemoryService
 from services.llm_service import LLMService
-from services.facts_memory_service import FactsMemoryService
 
 from helpers.st_session_helper import st_session_helper
 
@@ -26,7 +25,6 @@ class ChatController:
 
     def __init__(self):
         self._lt_memory_service = LTMemoryService()
-        self._facts_memory_service = FactsMemoryService()
         self._llm_service = LLMService()
 
     def _get_history_from_session(

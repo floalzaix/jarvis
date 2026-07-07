@@ -59,6 +59,32 @@ class Settings(BaseSettings):
         description="Whether to enable thinking for the LLM"
     )
 
+    NB_CTX_TOKENS: int = Field(
+        description="""
+            The number of context tokens to use for the LLM.
+            Careful, this is the total number of tokens that will be
+            used for the context. Meaning that this number must be 
+            greater than the sum of the number of instruct tokens and
+            the number of user tokens and even perhaps a small margin
+            of error.
+        """
+    )
+
+    NB_INSTRUCT_TOKENS: int = Field(
+        description="""
+            The number of instruct tokens to use for the LLM.
+            It includes the system prompt, the skills, the other
+            prompts, ...
+        """
+    )
+
+    NB_USER_TOKENS: int = Field(
+        description="""
+            Its the number of token left for the user inputs meaning
+            the session history, the fact memory and the user_input.
+        """
+    )
+
     OLLAMA_PORT: int = Field(
         description="The port of the Ollama server"
     )
