@@ -9,8 +9,9 @@ from typing import Iterator, List, Optional
 
 # Perso
 
-from services.db_service import DBService
+from services.lt_memory_service import LTMemoryService
 from services.llm_service import LLMService
+from services.facts_memory_service import FactsMemoryService
 
 from helpers.st_session_helper import st_session_helper
 
@@ -24,10 +25,11 @@ class ChatController:
     """
 
     def __init__(self):
-        self.db_service = DBService()
-        self.llm_service = LLMService()
+        self._lt_memory_service = LTMemoryService()
+        self._facts_memory_service = FactsMemoryService()
+        self._llm_service = LLMService()
 
-    def get_history_from_session(
+    def _get_history_from_session(
         self,
         session_id: Optional[uuid.UUID] = None,
     ) -> List[ollama.Message]:
@@ -47,7 +49,7 @@ class ChatController:
                 the history from the database.
         """
         
-        return self.db_service.get_messages_from_session(
+        return self._lt_memory_service.get_messages_from_session(
             session_id
         ) if session_id else []
 
@@ -86,17 +88,23 @@ class ChatController:
 
         # TODO: Handle errors
 
+        user_input_msg = ollama.Message(
+            role="user",
+            content=user_input
+        )
+
+        #
+        #   Chat history
+        #
+        
         session_id = st_session_helper.get_st_chat_session_id()
 
-        chat_history = self.get_history_from_session(session_id)
+        chat_history = self._get_history_from_session(session_id)
 
-        stream = self.llm_service.infer(user_input, chat_history)
+        stream = self._llm_service.infer(user_input, chat_history)
 
-        session_id = self.db_service.save_message_to_session(
-            ollama.Message(
-                role="user",
-                content=user_input
-            ),
+        session_id = self._lt_memory_service.save_message_to_session(
+            user_input_msg,
             user_email,
             session_id
         )
@@ -104,10 +112,13 @@ class ChatController:
         st_session_helper.set_st_chat_session_id(session_id)
 
         # Updating the chat history for the view
-        chat_history = self.get_history_from_session(session_id)
+        chat_history = self._get_history_from_session(session_id)
         st_session_helper.set_st_chat_history(chat_history)
 
-        # Generating the response from the LLM
+        #
+        #   LLM response
+        #
+        
         full_response = ""
         for response in stream:
             if response.message.content:
@@ -115,7 +126,7 @@ class ChatController:
                 yield full_response
 
         # Saving changes to the session history
-        self.db_service.save_message_to_session(
+        self._lt_memory_service.save_message_to_session(
             ollama.Message(
                 role="assistant",
                 content=full_response
@@ -125,7 +136,7 @@ class ChatController:
         )
 
         # Updating the chat history for the view
-        chat_history = self.get_history_from_session(session_id)
+        chat_history = self._get_history_from_session(session_id)
         st_session_helper.set_st_chat_history(chat_history)
 
         return full_response

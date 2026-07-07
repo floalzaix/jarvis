@@ -9,10 +9,10 @@ from email_validator import validate_email, EmailNotValidError
 
 # Perso
 
-from database.bootstrap import get_session
-from database.orm.session import Session as ChatSession
-from database.orm.message import Message as DBMessage
-from database.orm.user import User as DBUser
+from lt_database.bootstrap import get_session
+from lt_database.orm.session import Session as ChatSession
+from lt_database.orm.message import Message as DBMessage
+from lt_database.orm.user import User as DBUser
 from models.user import User as UserModel
 
 #
@@ -38,12 +38,12 @@ class UserAlreadyExistsError(Exception):
         super().__init__(f"User with email {email} already exists !")
 
 #
-#   DB Service
+#   Long Term (LT) memory service
 #
 
-class DBService:
+class LTMemoryService: # Long Term (LT) memory service
     """
-        DB Service class.
+        Long Term (LT) memory service class.
     """
 
     def create_user(

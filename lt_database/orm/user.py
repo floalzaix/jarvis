@@ -9,10 +9,10 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 # Perso
 
-from database.base import Base
+from lt_database.base import Base
 
 if TYPE_CHECKING:
-    from database.orm.session import Session
+    from lt_database.orm.session import Session
 
 #
 #   User ORM

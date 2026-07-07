@@ -44,22 +44,35 @@ class Settings(BaseSettings):
     #
     
     APP_ENV: str = Field(
-        default="development",
-        description="Wether the app is in prod or dev mode"
+        description="Whether the app is in prod or dev mode"
     )
 
     #
-    #   Model settings
+    #   LLM model settings
     #
     
     MODEL: str = Field(
-        default="qwen3:8b",
         description="The model to use for the LLM"
     )
 
     THINK: bool = Field(
-        default=False,
         description="Whether to enable thinking for the LLM"
+    )
+
+    OLLAMA_PORT: int = Field(
+        description="The port of the Ollama server"
+    )
+
+    #
+    #   Embedder settings
+    #
+    
+    EMBEDDER_MODEL: str = Field(
+        description="The model to use for the embedder"
+    )
+
+    EMBEDDER_DIM: int = Field(
+        description="The dimension of the embedder"
     )
 
     #
@@ -72,16 +85,34 @@ class Settings(BaseSettings):
     )
 
     #
-    #   Database
+    #   Long term memory
     #
     
-    DATABASE_URL: str = Field(
-        default="sqlite:///jarvis_memory.db",
+    LT_MEMORY_DATABASE_URL: str = Field(
         description="""
-            The URL of the database to use.
+            The URL of the database for the long term memory to use.
             It can be a SQLite, MySQL, PostgreSQL, or other supported database.
             The default is a SQLite database in the current directory.
         """
+    )
+
+    #
+    #   Facts memory
+    #
+    
+    FACTS_MEMORY_DATABASE_URL: str = Field(
+        description="""
+            The URL of the database for the facts memory to use.
+            The default is a Neo4j database at localhost:7687.
+        """
+    )
+
+    FACTS_MEMORY_USERNAME: str = Field(
+        description="The username for the facts memory database"
+    )
+
+    FACTS_MEMORY_PASSWORD: str = Field(
+        description="The password for the facts memory database"
     )
 
     #

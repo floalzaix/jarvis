@@ -47,12 +47,12 @@ def bootstrap_db() -> sessionmaker[Session]:
         Bootstrap the database by setting up the engine and the session maker.
     """
 
-    URL = settings.DATABASE_URL
+    URL = settings.LT_MEMORY_DATABASE_URL
 
     # Creating the engine
     engine: Engine = create_engine(
         URL,
-        echo=settings.APP_ENV == Env.DEVELOPMENT,
+        echo=False,
     )
 
     # Creating the session maker

@@ -18,7 +18,10 @@ def main():
     
     STSessionHelper()
 
-    # Redering the main window
+    #
+    #   UI
+    #
+
     MainWindow().render()
 
 if __name__ == "__main__":

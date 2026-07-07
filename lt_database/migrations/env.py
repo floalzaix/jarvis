@@ -6,7 +6,7 @@ from sqlalchemy import pool
 from alembic import context
 
 from config.config import get_settings
-from database.base import Base
+from lt_database.base import Base
 
 settings = get_settings()
 
@@ -25,16 +25,16 @@ if config.config_file_name is not None:
 # target_metadata = mymodel.Base.metadata
 target_metadata = Base.metadata
 
-import database.orm.user
-import database.orm.session
-import database.orm.message
+import lt_database.orm.user
+import lt_database.orm.session
+import lt_database.orm.message
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
 
-config.set_main_option("sqlalchemy.url", str(settings.DATABASE_URL))
+config.set_main_option("sqlalchemy.url", str(settings.LT_MEMORY_DATABASE_URL))
 
 
 def run_migrations_offline() -> None:
