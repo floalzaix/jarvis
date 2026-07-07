@@ -78,7 +78,7 @@ class Settings(BaseSettings):
         """
     )
 
-    NB_USER_TOKENS: int = Field(
+    NB_HISTORY_TOKENS: int = Field(
         description="""
             Its the number of token left for the user inputs meaning
             the session history, the fact memory and the user_input.
